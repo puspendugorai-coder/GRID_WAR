@@ -145,4 +145,5 @@ def next_game():
     return redirect(url_for('index'))
 
 if __name__ == '__main__':
-    app.run(debug=os.getenv('FLASK_ENV') == 'development', port=port)
+    port = int(os.getenv('PORT', 5050))
+    app.run(host='0.0.0.0', port=port, debug=os.getenv('FLASK_ENV') == 'development')
