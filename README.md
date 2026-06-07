@@ -13,7 +13,7 @@
 
 ### 🚀 Live Demo
 
-## 👉 [Click Here to Open the App]()
+## 👉 [Click Here to Play](https://tic-tac-toe-9qy9.onrender.com)
 
 ---
 </div>
