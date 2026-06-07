@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>GRID WAR – Tic Tac Toe</title>
+<link rel="stylesheet" href="/static/css/style.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
+</head>
+<body class="setup-page">
+
+<!-- Animated background -->
+<div class="bg-grid"></div>
+<div class="bg-particles" id="particles"></div>
+<div class="scanline"></div>
+
+<div class="page-container" id="setupContainer">
+
+  <!-- LOGO -->
+  <div class="logo-wrap">
+    <div class="logo-glitch" data-text="GRID WAR">GRID WAR</div>
+    <div class="logo-sub">TACTICAL TIC TAC TOE</div>
+  </div>
+
+  <!-- PLAYER COUNT SELECTOR -->
+  <div class="card" id="stepCount">
+    <h2 class="card-title">HOW MANY WARRIORS?</h2>
+    <div class="player-count-grid">
+      {% for n in [2,3,4,5,6] %}
+      <button class="count-btn {% if n==2 %}active{% endif %}" data-count="{{ n }}">
+        <span class="count-num">{{ n }}</span>
+        <span class="count-label">PLAYER{% if n>1 %}S{% endif %}</span>
+      </button>
+      {% endfor %}
+    </div>
+    <button class="btn-primary" id="btnNext">NEXT →</button>
+  </div>
+
+  <!-- NAME ENTRY -->
+  <form action="/setup" method="POST" id="setupForm" class="card hidden" id="stepNames">
+    <h2 class="card-title">ENTER YOUR NAMES</h2>
+    <div id="nameFields"></div>
+    <div class="btn-row">
+      <button type="button" class="btn-back" id="btnBack">← BACK</button>
+      <button type="submit" class="btn-primary">BATTLE!</button>
+    </div>
+    <input type="hidden" name="num_players" id="numPlayersInput"/>
+  </form>
+
+</div>
+
+<script src="/static/js/particles.js"></script>
+<script src="/static/js/setup.js"></script>
+</body>
+</html>

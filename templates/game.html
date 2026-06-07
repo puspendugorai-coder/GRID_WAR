@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>GRID WAR – Battle</title>
+<link rel="stylesheet" href="/static/css/style.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
+</head>
+<body class="game-page">
+
+<div class="bg-grid"></div>
+<div class="bg-particles" id="particles"></div>
+<div class="scanline"></div>
+
+<!-- WIN OVERLAY -->
+<div class="win-overlay hidden" id="winOverlay">
+  <div class="win-box">
+    <div class="win-emoji" id="winEmoji">🏆</div>
+    <div class="win-title" id="winTitle">VICTORY!</div>
+    <div class="win-name" id="winName"></div>
+    <div class="win-confetti" id="confettiContainer"></div>
+    <div class="win-btn-row">
+      <a href="/restart" class="btn-primary">↺ REMATCH</a>
+      <a href="/next_game" class="btn-outline">⊞ NEW GAME</a>
+    </div>
+  </div>
+</div>
+
+<!-- DRAW OVERLAY -->
+<div class="draw-overlay hidden" id="drawOverlay">
+  <div class="win-box draw-box">
+    <div class="win-emoji">🤝</div>
+    <div class="win-title">DRAW!</div>
+    <div class="win-name">NO WINNER THIS TIME</div>
+    <div class="win-btn-row">
+      <a href="/restart" class="btn-primary">↺ REMATCH</a>
+      <a href="/next_game" class="btn-outline">⊞ NEW GAME</a>
+    </div>
+  </div>
+</div>
+
+<div class="game-layout">
+
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <a href="/next_game" class="btn-back top-back">← BACK</a>
+    <div class="logo-small">GRID WAR</div>
+    <a href="/restart" class="btn-restart">↺ RESTART</a>
+  </div>
+
+  <!-- SCOREBOARD -->
+  <div class="scoreboard" id="scoreboard">
+    {% for p in players %}
+    <div class="score-card {% if loop.index0 == current and not game_over %}active{% endif %}" 
+         id="score-{{ loop.index0 }}"
+         style="--player-color: {{ p.color }}">
+      <div class="score-symbol">{{ p.symbol }}</div>
+      <div class="score-name">{{ p.name }}</div>
+      <div class="score-val">{{ p.score }}</div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- TURN INDICATOR -->
+  <div class="turn-banner" id="turnBanner">
+    {% if not game_over %}
+    <span class="turn-sym" style="color:{{ players[current].color }}">{{ players[current].symbol }}</span>
+    <span class="turn-txt">{{ players[current].name }}'s TURN</span>
+    {% endif %}
+  </div>
+
+  <!-- GAME BOARD -->
+  <div class="board-wrap">
+    <div class="board" id="board"
+         style="--size:{{ size }}; --cols:{{ size }}"
+         data-size="{{ size }}"
+         data-current="{{ current }}"
+         data-gameover="{{ 'true' if game_over else 'false' }}">
+      {% for i in range(size * size) %}
+      <button class="cell 
+        {% if board[i] %}filled{% endif %} 
+        {% if i in winning_line %}winning{% endif %}"
+        id="cell-{{ i }}"
+        data-index="{{ i }}"
+        {% if board[i] or game_over %}disabled{% endif %}
+        style="{% if board[i] %}--sym-color:{{ players | selectattr('symbol','equalto',board[i]) | map(attribute='color') | first }};{% endif %}">
+        {% if board[i] %}
+        <span class="cell-symbol">{{ board[i] }}</span>
+        {% endif %}
+      </button>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- BOTTOM CONTROLS -->
+  <div class="bottom-controls">
+    <a href="/restart" class="btn-outline-sm">↺ RESTART</a>
+    <a href="/next_game" class="btn-outline-sm">⊞ NEXT GAME</a>
+  </div>
+
+</div>
+
+<!-- Pass data to JS -->
+<script>
+  const PLAYERS = {{ players | tojson }};
+  const BOARD   = {{ board | tojson }};
+  const SIZE    = {{ size }};
+  const CURRENT = {{ current }};
+  const GAME_OVER = {{ 'true' if game_over else 'false' }};
+  const WINNER    = {{ (winner | tojson) if winner else 'null' }};
+  const WIN_LINE  = {{ winning_line | tojson }};
+</script>
+<script src="/static/js/particles.js"></script>
+<script src="/static/js/game.js"></script>
+</body>
+</html>
