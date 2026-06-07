@@ -11,6 +11,11 @@
 
 *A neon arcade-themed, fully animated Tic Tac Toe game supporting 2–6 players with dynamic grid sizes, confetti explosions, sound effects, and a glitch aesthetic.*
 
+### 🚀 Live Demo
+
+## 👉 [Click Here to Open the App]()
+
+---
 </div>
 
 ---
