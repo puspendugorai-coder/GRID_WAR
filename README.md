@@ -13,7 +13,7 @@
 
 ### 🚀 Live Demo
 
-## 👉 [Click Here to Play](https://tic-tac-toe-9qy9.onrender.com)
+## 👉 [Click Here to Play](https://grid-war-eh25.onrender.com)
 
 ---
 </div>
